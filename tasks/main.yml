@@ -1,1 +1,56 @@
 ---
+- name: "Install packages"
+  ansible.builtin.package:
+    update_cache: true
+    name:
+      - "libpcre2-16-0"
+      - "libpcre2-8-0"
+      - "libpcre2-32-0"
+
+- name: "Check if the /etc/pihole directory exist"
+  register: file_check
+  ansible.builtin.stat:
+    path: "/etc/pihole"
+
+- name: "Create /etc/pihole directory"
+  when: not file_check.stat.exists
+  ansible.builtin.file:
+    path: "/etc/pihole"
+    state: directory
+    recurse: yes
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: "Create / Set the password hash"
+  register: install_pihole_webpassword_hashed
+  changed_when: install_pihole_webpassword_hashed.rc != 0
+  ansible.builtin.shell: >
+    echo -n {{ install_pihole_webpassword }} | sha256sum | awk '{printf "%s",$1 }' | sha256sum
+
+- name: "Import setupVars configuration file"
+  ansible.builtin.template:
+    src: "templates/setupVars.conf.j2"
+    dest: "/etc/pihole/setupVars.conf"
+    lstrip_blocks: yes
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: "Install PiHole with bash"
+  register: ouput
+  changed_when: ouput.rc != 0
+  ansible.builtin.shell: "curl -L https://install.pi-hole.net | bash /dev/stdin --unattended"
+
+- name: "Import adlists with bash"
+  register: ouput
+  changed_when: ouput.rc != 0
+  loop: "{{ install_pihole_adlists }}"
+  loop_control:
+    loop_var: adlist
+  ansible.builtin.command: "pihole -a adlist add {{ adlist }}"
+
+- name: "Update Gravity with bash"
+  register: ouput
+  changed_when: ouput.rc != 0
+  ansible.builtin.command: "pihole -g"

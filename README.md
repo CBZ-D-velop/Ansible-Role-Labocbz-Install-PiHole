@@ -137,6 +137,10 @@ Here you can put your change to keep a trace of your work and decisions.
 ### 2023-08-19: First Init
 
 * First init of this role with the bootstrap_role playbook by Lord Robin Crombez
+* Role install PiHole with install bash and the "unattended" option
+* Role use the setupVars to install PiHole so reconfiguration / update is handle
+* Role importe a light ban list +- 650K
+* Test are not performed for now
 
 ## Authors
 
@@ -146,3 +150,7 @@ Here you can put your change to keep a trace of your work and decisions.
 
 * [Ansible role documentation](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html)
 * [Ansible Molecule documentation](https://molecule.readthedocs.io/)
+* [Install Pi-Hole without user interaction?](https://unix.stackexchange.com/questions/423715/install-pi-hole-without-user-interaction)
+* [Pi-hole as part of a post-installation script](https://discourse.pi-hole.net/t/pi-hole-as-part-of-a-post-installation-script/3523)
+* [What is setupVars.conf and how do I use it?](https://discourse.pi-hole.net/t/what-is-setupvars-conf-and-how-do-i-use-it/3533/1)
+* [The Big Blocklist Collection](https://firebog.net/)

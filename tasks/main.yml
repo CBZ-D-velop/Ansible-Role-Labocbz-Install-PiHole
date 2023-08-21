@@ -43,6 +43,11 @@
   ansible.builtin.shell: >
     curl -L https://install.pi-hole.net | bash /dev/stdin --unattended
 
+- name: "Update PiHole with bash"
+  register: ouput
+  changed_when: ouput.rc != 0
+  ansible.builtin.command: "/usr/local/bin/pihole -up"
+
 - name: "Import adlists with bash"
   register: ouput
   changed_when: ouput.rc != 0
@@ -50,6 +55,24 @@
   loop_control:
     loop_var: adlist
   ansible.builtin.command: "/usr/local/bin/pihole -a adlist add {{ adlist }}"
+
+- name: "Import CNAME records"
+  ansible.builtin.template:
+    src: "templates/05-pihole-custom-cname.conf.j2"
+    dest: "/etc/dnsmasq.d/05-pihole-custom-cname.conf"
+    lstrip_blocks: yes
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: "Import AAAA records"
+  ansible.builtin.template:
+    src: "templates/custom.list.j2"
+    dest: "/etc/pihole/custom.list"
+    lstrip_blocks: yes
+    owner: "root"
+    group: "root"
+    mode: "0644"
 
 - name: "Update Gravity with bash"
   register: ouput

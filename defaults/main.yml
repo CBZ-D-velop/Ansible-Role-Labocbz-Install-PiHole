@@ -17,6 +17,14 @@ install_pihole_api_exclude_clients: ""
 install_pihole_api_query_logs_show: "all"
 install_pihole_api_privacy_mode: false
 
+install_pihole_aaaa_list:
+  - domain: "{{ ansible_hostname }}"
+    ip: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}"
+
+install_pihole_cname_list:
+  - domain: "pihole.local"
+    target: "{{ ansible_hostname }}"
+
 install_pihole_adlists:
   - "https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt"
   - "https://adaway.org/hosts.txt"

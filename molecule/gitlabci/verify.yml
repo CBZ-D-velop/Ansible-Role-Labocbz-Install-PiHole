@@ -5,3 +5,15 @@
   hosts: "all"
   gather_facts: false
   tasks:
+
+    - name: "Check PiHole services and connectivities"
+      loop:
+        - 80
+        - 53
+        - 4711
+      loop_control:
+        loop_var: port
+      ansible.builtin.wait_for:
+        host: "127.0.0.1"
+        port: "{{ port }}"
+        timeout: 120

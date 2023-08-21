@@ -142,6 +142,10 @@ Here you can put your change to keep a trace of your work and decisions.
 * Role importe a light ban list +- 650K
 * Test are not performed for now
 
+### 2023-08-21: Added DNS and CNAME$
+
+* You can now import CNAME and DNS in the PiHole
+
 ## Authors
 
 * Lord Robin Crombez

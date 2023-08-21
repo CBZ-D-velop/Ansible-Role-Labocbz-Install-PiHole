@@ -49,9 +49,9 @@
   loop: "{{ install_pihole_adlists }}"
   loop_control:
     loop_var: adlist
-  ansible.builtin.command: "pihole -a adlist add {{ adlist }}"
+  ansible.builtin.shell: "pihole -a adlist add {{ adlist }}"
 
 - name: "Update Gravity with bash"
   register: ouput
   changed_when: ouput.rc != 0
-  ansible.builtin.command: "pihole -g"
+  ansible.builtin.shell: "pihole -g"

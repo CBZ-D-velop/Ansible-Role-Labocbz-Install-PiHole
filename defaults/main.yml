@@ -1,7 +1,7 @@
 ---
 install_pihole_webpassword: "admin"
-install_pihole_interface: "{{ ansible_default_ipv4.interface }}"
-install_pihole_ipv4_address: "{{ ansible_default_ipv4.address }}/{{ (ansible_default_ipv4.address + '/' + ansible_default_ipv4.netmask) | ipaddr('prefix') }}"
+install_pihole_interface: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['interface'] }}"
+install_pihole_ipv4_address: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}/{{ (hostvars[ansible_hostname]['ansible_default_ipv4']['address'] + '/' + hostvars[ansible_hostname]['ansible_default_ipv4']['netmask']) | ipaddr('prefix') }}"
 install_pihole_query_logging: true
 install_pihole_install_web: true
 install_pihole_dnsmasq_listening: "single"

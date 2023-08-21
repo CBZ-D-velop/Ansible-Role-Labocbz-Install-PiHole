@@ -40,7 +40,8 @@
 - name: "Install PiHole with bash"
   register: ouput
   changed_when: ouput.rc != 0
-  ansible.builtin.shell: "curl -L https://install.pi-hole.net | bash /dev/stdin --unattended"
+  ansible.builtin.shell: >
+    curl -L https://install.pi-hole.net | bash /dev/stdin --unattended
 
 - name: "Import adlists with bash"
   register: ouput

@@ -43,11 +43,6 @@
   ansible.builtin.shell: >
     curl -L https://install.pi-hole.net | bash /dev/stdin --unattended
 
-- name: "Update Gravity with bash"
-  register: ouput
-  changed_when: ouput.rc != 0
-  ansible.builtin.command: "whereis pihole"
-
 - name: "Update PiHole with bash"
   register: ouput
   changed_when: ouput.rc != 0

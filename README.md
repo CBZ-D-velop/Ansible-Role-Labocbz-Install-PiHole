@@ -100,7 +100,65 @@ Some vars a required to run this role:
 
 ```YAML
 ---
-your defaults vars here
+install_pihole_webpassword: "admin"
+install_pihole_interface: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['interface'] }}"
+install_pihole_ipv4_address: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}/{{ (hostvars[ansible_hostname]['ansible_default_ipv4']['address'] + '/' + hostvars[ansible_hostname]['ansible_default_ipv4']['netmask']) | ipaddr('prefix') }}"
+install_pihole_query_logging: true
+install_pihole_install_web: true
+install_pihole_dnsmasq_listening: "single"
+install_pihole_dns_1: "1.1.1.1"
+install_pihole_dns_2: "1.0.0.1"
+install_pihole_dns_fqdn_required: true
+install_pihole_dns_bogus_priv: true
+install_pihole_dnssec: true
+install_pihole_temperatureunit: "C"
+install_pihole_webuiboxedlayout: "traditional"
+install_pihole_api_exclude_domains: ""
+install_pihole_api_exclude_clients: ""
+install_pihole_api_query_logs_show: "all"
+install_pihole_api_privacy_mode: false
+
+install_pihole_aaaa_list:
+  - domain: "{{ ansible_hostname }}"
+    ip: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}"
+
+install_pihole_cname_list:
+  - domain: "pihole.local"
+    target: "{{ ansible_hostname }}"
+
+install_pihole_adlists:
+  - "https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt"
+  - "https://adaway.org/hosts.txt"
+  - "https://v.firebog.net/hosts/AdguardDNS.txt"
+  - "https://v.firebog.net/hosts/Admiral.txt"
+  - "https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
+  - "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
+  - "https://v.firebog.net/hosts/Easylist.txt"
+  - "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext"
+  - "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts"
+  - "https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts"
+  - "https://v.firebog.net/hosts/Easyprivacy.txt"
+  - "https://v.firebog.net/hosts/Prigent-Ads.txt"
+  - "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts"
+  - "https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt"
+  - "https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt"
+  - "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt"
+  - "https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt"
+  - "https://v.firebog.net/hosts/Prigent-Crypto.txt"
+  - "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts"
+  - "https://bitbucket.org/ethanr/dns-blacklists/raw/8575c9f96e5b4a1308f2f12394abd86d0927a4a0/bad_lists/Mandiant_APT1_Report_Appendix_D.txt"
+  - "https://phishing.army/download/phishing_army_blocklist_extended.txt"
+  - "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt"
+  - "https://v.firebog.net/hosts/RPiList-Malware.txt"
+  - "https://v.firebog.net/hosts/RPiList-Phishing.txt"
+  - "https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt"
+  - "https://raw.githubusercontent.com/AssoEchap/stalkerware-indicators/master/generated/hosts"
+  - "https://urlhaus.abuse.ch/downloads/hostfile/"
+  - "https://zerodot1.gitlab.io/CoinBlockerLists/hosts_browser"
+  - "https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt"
+  - "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts"
+  - "https://v.firebog.net/hosts/static/w3kbl.txt"
+
 ```
 
 The best way is to modify these vars by copy the ./default/main.yml file into the ./vars and edit with your personnals requirements.
@@ -112,13 +170,71 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ```YAML
 # From inventory
 ---
-all vars from to put/from your inventory
+inv_install_pihole_webpassword: "admin"
+inv_install_pihole_interface: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['interface'] }}"
+inv_install_pihole_ipv4_address: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}/{{ hostvars[ansible_hostname]['ansible_default_ipv4']['netmask'] }}"
+inv_install_pihole_query_logging: true
+inv_install_pihole_install_web: true
+inv_install_pihole_dnsmasq_listening: "single"
+inv_install_pihole_dns_1: "1.1.1.1"
+inv_install_pihole_dns_2: "1.0.0.1"
+inv_install_pihole_dns_fqdn_required: true
+inv_install_pihole_dns_bogus_priv: true
+inv_install_pihole_dnssec: true
+inv_install_pihole_temperatureunit: "C"
+inv_install_pihole_webuiboxedlayout: "traditional"
+inv_install_pihole_api_exclude_domains: ""
+inv_install_pihole_api_exclude_clients: ""
+inv_install_pihole_api_query_logs_show: "all"
+inv_install_pihole_api_privacy_mode: false
+
+inv_install_pihole_aaaa_list:
+  - domain: "{{ ansible_hostname }}"
+    ip: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}"
+
+inv_install_pihole_cname_list:
+  - domain: "pihole.local"
+    target: "{{ ansible_hostname }}"
+
+inv_install_pihole_adlists:
+  - "https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt"
+  - "https://adaway.org/hosts.txt"
+  - "https://v.firebog.net/hosts/AdguardDNS.txt"
+  - "https://v.firebog.net/hosts/Admiral.txt"
+  - "https://s3.amazonaws.com/lists.disconnect.me/simple_malvertising.txt"
+  - "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
+  - "https://v.firebog.net/hosts/Easylist.txt"
+  - "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext"
+  - "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts"
+  - "https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts"
+  - "https://v.firebog.net/hosts/Easyprivacy.txt"
+  - "https://v.firebog.net/hosts/Prigent-Ads.txt"
+  - "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.2o7Net/hosts"
+  - "https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt"
+  - "https://hostfiles.frogeye.fr/firstparty-trackers-hosts.txt"
+  - "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareHosts.txt"
+  - "https://osint.digitalside.it/Threat-Intel/lists/latestdomains.txt"
+  - "https://v.firebog.net/hosts/Prigent-Crypto.txt"
+  - "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Risk/hosts"
+  - "https://bitbucket.org/ethanr/dns-blacklists/raw/8575c9f96e5b4a1308f2f12394abd86d0927a4a0/bad_lists/Mandiant_APT1_Report_Appendix_D.txt"
+  - "https://phishing.army/download/phishing_army_blocklist_extended.txt"
+  - "https://gitlab.com/quidsup/notrack-blocklists/raw/master/notrack-malware.txt"
+  - "https://v.firebog.net/hosts/RPiList-Malware.txt"
+  - "https://v.firebog.net/hosts/RPiList-Phishing.txt"
+  - "https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt"
+  - "https://raw.githubusercontent.com/AssoEchap/stalkerware-indicators/master/generated/hosts"
+  - "https://urlhaus.abuse.ch/downloads/hostfile/"
+  - "https://zerodot1.gitlab.io/CoinBlockerLists/hosts_browser"
+  - "https://raw.githubusercontent.com/PolishFiltersTeam/KADhosts/master/KADhosts.txt"
+  - "https://raw.githubusercontent.com/FadeMind/hosts.extras/master/add.Spam/hosts"
+  - "https://v.firebog.net/hosts/static/w3kbl.txt"
+
 ```
 
 ```YAML
 # From AWX / Tower
 ---
-all vars from to put/from AWX / Tower
+
 ```
 
 ### Run
@@ -126,8 +242,32 @@ all vars from to put/from AWX / Tower
 To run this role, you can copy the molecule/default/converge.yml playbook and add it into your playbook:
 
 ```YAML
----
-your converge.yml file here
+- name: "Include labocbz.install_pihole"
+    tags:
+    - "labocbz.install_pihole"
+    vars:
+    install_pihole_webpassword: "{{ inv_install_pihole_webpassword }}"
+    install_pihole_interface: "{{ inv_install_pihole_interface }}"
+    install_pihole_ipv4_address: "{{ inv_install_pihole_ipv4_address }}"
+    install_pihole_query_logging: "{{ inv_install_pihole_query_logging }}"
+    install_pihole_install_web: "{{ inv_install_pihole_install_web }}"
+    install_pihole_dnsmasq_listening: "{{ inv_install_pihole_dnsmasq_listening }}"
+    install_pihole_dns_1: "{{ inv_install_pihole_dns_1 }}"
+    install_pihole_dns_2: "{{ inv_install_pihole_dns_2 }}"
+    install_pihole_dns_fqdn_required: "{{ inv_install_pihole_dns_fqdn_required }}"
+    install_pihole_dns_bogus_priv: "{{ inv_install_pihole_dns_bogus_priv }}"
+    install_pihole_dnssec: "{{ inv_install_pihole_dnssec }}"
+    install_pihole_temperatureunit: "{{ inv_install_pihole_temperatureunit }}"
+    install_pihole_webuiboxedlayout: "{{ inv_install_pihole_webuiboxedlayout }}"
+    install_pihole_api_exclude_domains: "{{ inv_install_pihole_api_exclude_domains }}"
+    install_pihole_api_exclude_clients: "{{ inv_install_pihole_api_exclude_clients }}"
+    install_pihole_api_query_logs_show: "{{ inv_install_pihole_api_query_logs_show }}"
+    install_pihole_api_privacy_mode: "{{ inv_install_pihole_api_privacy_mode }}"
+    install_pihole_aaaa_list: "{{ inv_install_pihole_aaaa_list }}"
+    install_pihole_cname_list: "{{ inv_install_pihole_cname_list }}"
+    install_pihole_adlists: "{{ inv_install_pihole_adlists }}"
+    ansible.builtin.include_role:
+    name: "labocbz.install_pihole"
 ```
 
 ## Architectural Decisions Records

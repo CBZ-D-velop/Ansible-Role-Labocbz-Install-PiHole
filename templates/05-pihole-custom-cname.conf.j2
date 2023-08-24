@@ -1,0 +1,3 @@
+{% for cname in install_pihole_cname_list %}
+cname={{ cname.domain }},{{ cname.target }}
+{% endfor %}

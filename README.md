@@ -17,6 +17,12 @@
 
 An Ansible role to install and configure PiHole on your host.
 
+This Ansible role effortlessly installs the latest version of Pi-hole using the official installation script. This role offers extensive configurability, including IP settings, network interfaces, and the option to install the web version.
+
+Pi-hole's power is further harnessed through the deployment of AAAA records and CNAMES. This simplifies and streamlines the DNS resolution process. Additionally, the role empowers you to bolster your online experience by integrating various blocklists targeting advertisements and malicious websites. This fortifies your network against unwanted content and potential threats.
+
+In essence, this Ansible role not only brings the latest version of Pi-hole to your system but also provides a comprehensive suite of configurable options. From network settings to DNS resolution enhancements and built-in blocklists, this role simplifies and enhances your network's management and security.
+
 ## Folder structure
 
 By default Ansible will look in each directory within a role for a main.yml file for relevant content (also man.yml and main):

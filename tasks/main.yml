@@ -51,12 +51,14 @@
 - name: "Import adlists with bash"
   register: ouput
   changed_when: ouput.rc != 0
+  when: install_pihole_adlists | default(false)
   loop: "{{ install_pihole_adlists }}"
   loop_control:
     loop_var: adlist
   ansible.builtin.command: "/usr/local/bin/pihole -a adlist add {{ adlist }}"
 
 - name: "Import CNAME records"
+  when: install_pihole_cname_list | default(false)
   ansible.builtin.template:
     src: "templates/05-pihole-custom-cname.conf.j2"
     dest: "/etc/dnsmasq.d/05-pihole-custom-cname.conf"
@@ -66,6 +68,7 @@
     mode: "0644"
 
 - name: "Import AAAA records"
+  when: install_pihole_aaaa_list | default(false)
   ansible.builtin.template:
     src: "templates/custom.list.j2"
     dest: "/etc/pihole/custom.list"

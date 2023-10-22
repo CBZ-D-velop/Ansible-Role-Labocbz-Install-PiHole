@@ -1,7 +1,7 @@
 ---
 - name: "Install packages"
   ansible.builtin.package:
-    update_cache: false
+    update_cache: true
     name:
       - "libpcre2-16-0"
       - "libpcre2-8-0"

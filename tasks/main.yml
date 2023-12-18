@@ -99,10 +99,3 @@
   changed_when: ouput.rc != 0
   when: (cname_state.changed | default(false)) or (aaaa_state.changed | default(false))
   ansible.builtin.command: "/usr/local/bin/pihole -g"
-
-- name: "Remove /etc/pihole/setupVars.conf"
-  register: output
-  changed_when: (output.changed | default(false)) == false 
-  ansible.builtin.file:
-    path: "/etc/pihole/setupVars.conf"
-    state: absent

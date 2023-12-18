@@ -249,9 +249,9 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
 
 ```YAML
 - name: "Include labocbz.install_pihole"
-    tags:
+  tags:
     - "labocbz.install_pihole"
-    vars:
+  vars:
     install_pihole_webpassword: "{{ inv_install_pihole_webpassword }}"
     install_pihole_interface: "{{ inv_install_pihole_interface }}"
     install_pihole_ipv4_address: "{{ inv_install_pihole_ipv4_address }}"
@@ -272,7 +272,7 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
     install_pihole_aaaa_list: "{{ inv_install_pihole_aaaa_list }}"
     install_pihole_cname_list: "{{ inv_install_pihole_cname_list }}"
     install_pihole_adlists: "{{ inv_install_pihole_adlists }}"
-    ansible.builtin.include_role:
+  ansible.builtin.include_role:
     name: "labocbz.install_pihole"
 ```
 
@@ -304,7 +304,6 @@ Here you can put your change to keep a trace of your work and decisions.
 * Lot of action will not up a "changed" state, for idempotency (see bellow why)
 * Update Gravity done if only a change noted for AAAA or CNAME records
 * PiHole install script have changed, we have to remove /var/www/html/admin to install with script, so "changed" noted and "ok"
-* Removed setupVars.conf, noted "changed" as "ok", so template is noted "changed" as "ok", removed for security reasons
 
 ## Authors
 

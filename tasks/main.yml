@@ -100,9 +100,10 @@
   when: (cname_state.changed | default(false)) or (aaaa_state.changed | default(false))
   ansible.builtin.command: "/usr/local/bin/pihole -g"
 
-- name: "Remove /etc/pihole/setupVars.conf"
+- name: "Remove /var/www/html/index.lighttpd.html"
+  when: file_check.stat.exists
   register: output
   changed_when: (output.changed | default(false)) == false 
   ansible.builtin.file:
-    path: "/etc/pihole/setupVars.conf"
+    path: "/var/www/html/index.lighttpd.html"
     state: absent

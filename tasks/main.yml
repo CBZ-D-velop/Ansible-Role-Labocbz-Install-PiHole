@@ -29,6 +29,8 @@
     echo -n {{ install_pihole_webpassword }} | sha256sum | awk '{printf "%s",$1 }' | sha256sum
 
 - name: "Import setupVars configuration file"
+  register: output
+  changed_when: (output.changed | default(false)) == false 
   ansible.builtin.template:
     src: "templates/setupVars.conf.j2"
     dest: "/etc/pihole/setupVars.conf"
@@ -36,6 +38,19 @@
     owner: "root"
     group: "root"
     mode: "0644"
+
+- name: "Check /var/www/html/admin directory"
+  register: file_check
+  ansible.builtin.stat:
+    path: "/var/www/html/admin"
+
+- name: "Remove /var/www/html/admin directory"
+  when: file_check.stat.exists
+  register: output
+  changed_when: (output.changed | default(false)) == false 
+  ansible.builtin.file:
+    path: "/var/www/html/admin"
+    state: absent
 
 - name: "Install PiHole with bash"
   register: ouput
@@ -59,6 +74,7 @@
 
 - name: "Import CNAME records"
   when: install_pihole_cname_list | default(false)
+  register: cname_state
   ansible.builtin.template:
     src: "templates/05-pihole-custom-cname.conf.j2"
     dest: "/etc/dnsmasq.d/05-pihole-custom-cname.conf"
@@ -69,6 +85,7 @@
 
 - name: "Import AAAA records"
   when: install_pihole_aaaa_list | default(false)
+  register: aaaa_state
   ansible.builtin.template:
     src: "templates/custom.list.j2"
     dest: "/etc/pihole/custom.list"
@@ -80,4 +97,12 @@
 - name: "Update Gravity with bash"
   register: ouput
   changed_when: ouput.rc != 0
+  when: (cname_state.changed | default(false)) or (aaaa_state.changed | default(false))
   ansible.builtin.command: "/usr/local/bin/pihole -g"
+
+- name: "Remove /etc/pihole/setupVars.conf"
+  register: output
+  changed_when: (output.changed | default(false)) == false 
+  ansible.builtin.file:
+    path: "/etc/pihole/setupVars.conf"
+    state: absent

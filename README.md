@@ -299,6 +299,13 @@ Here you can put your change to keep a trace of your work and decisions.
 * Molecule now use custom Docker image in CI/CD by env vars
 * New CICD with needs and optimization
 
+### 2023-12-18: Idempotency and Optimization
+
+* Lot of action will not up a "changed" state, for idempotency (see bellow why)
+* Update Gravity done if only a change noted for AAAA or CNAME records
+* PiHole install script have changed, we have to remove /var/www/html/admin to install with script, so "changed" noted and "ok"
+* Removed setupVars.conf, noted "changed" as "ok", so template is noted "changed" as "ok", removed for security reasons
+
 ## Authors
 
 * Lord Robin Crombez

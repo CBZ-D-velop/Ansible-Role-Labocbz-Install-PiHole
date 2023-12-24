@@ -1,1 +1,8 @@
 ---
+- name: "Restart Pihole-FTL"
+  register: install_pihole_service_status
+  changed_when: install_pihole_service_status.state != "started"
+  ansible.builtin.service:
+    name: "pihole-FTL"
+    state: "restarted"
+    enabled: yes

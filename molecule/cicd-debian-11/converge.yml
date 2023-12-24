@@ -33,5 +33,6 @@
         install_pihole_aaaa_list: "{{ inv_install_pihole_aaaa_list }}"
         install_pihole_cname_list: "{{ inv_install_pihole_cname_list }}"
         install_pihole_adlists: "{{ inv_install_pihole_adlists }}"
+        install_pihole_force_install: "{{ inv_install_pihole_force_install }}"
       ansible.builtin.include_role:
         name: "labocbz.install_pihole"

@@ -55,6 +55,7 @@
 - name: "Install PiHole with bash"
   register: ouput
   changed_when: ouput.rc != 0
+  when: install_pihole_force_install | default(false)
   ansible.builtin.shell: >
     curl -L https://install.pi-hole.net | bash /dev/stdin --unattended
 
@@ -75,6 +76,7 @@
 - name: "Import CNAME records"
   when: install_pihole_cname_list | default(false)
   register: cname_state
+  notify: "Restart Pihole-FTL"
   ansible.builtin.template:
     src: "templates/05-pihole-custom-cname.conf.j2"
     dest: "/etc/dnsmasq.d/05-pihole-custom-cname.conf"
@@ -86,6 +88,7 @@
 - name: "Import AAAA records"
   when: install_pihole_aaaa_list | default(false)
   register: aaaa_state
+  notify: "Restart Pihole-FTL"
   ansible.builtin.template:
     src: "templates/custom.list.j2"
     dest: "/etc/pihole/custom.list"

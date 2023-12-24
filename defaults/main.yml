@@ -16,6 +16,7 @@ install_pihole_api_exclude_domains: ""
 install_pihole_api_exclude_clients: ""
 install_pihole_api_query_logs_show: "all"
 install_pihole_api_privacy_mode: false
+install_pihole_force_install: false
 
 install_pihole_aaaa_list:
   - domain: "{{ ansible_hostname }}"

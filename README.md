@@ -123,6 +123,7 @@ install_pihole_api_exclude_domains: ""
 install_pihole_api_exclude_clients: ""
 install_pihole_api_query_logs_show: "all"
 install_pihole_api_privacy_mode: false
+install_pihole_force_install: false
 
 install_pihole_aaaa_list:
   - domain: "{{ ansible_hostname }}"
@@ -193,6 +194,7 @@ inv_install_pihole_api_exclude_domains: ""
 inv_install_pihole_api_exclude_clients: ""
 inv_install_pihole_api_query_logs_show: "all"
 inv_install_pihole_api_privacy_mode: false
+inv_install_pihole_force_install: false
 
 inv_install_pihole_aaaa_list:
   - domain: "{{ ansible_hostname }}"
@@ -272,6 +274,7 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
     install_pihole_aaaa_list: "{{ inv_install_pihole_aaaa_list }}"
     install_pihole_cname_list: "{{ inv_install_pihole_cname_list }}"
     install_pihole_adlists: "{{ inv_install_pihole_adlists }}"
+    install_pihole_force_install: "{{ inv_install_pihole_force_install }}"
   ansible.builtin.include_role:
     name: "labocbz.install_pihole"
 ```
@@ -304,6 +307,11 @@ Here you can put your change to keep a trace of your work and decisions.
 * Lot of action will not up a "changed" state, for idempotency (see bellow why)
 * Update Gravity done if only a change noted for AAAA or CNAME records
 * PiHole install script have changed, we have to remove /var/www/html/admin to install with script, so "changed" noted and "ok"
+
+### 2023-12-24: Force install and FTL
+
+* You can now set a reinstall vars as force install with script
+* Pihole-FTL restart if any change on DNS (because reinstall script not executed)
 
 ## Authors
 

@@ -45,7 +45,7 @@
     path: "/var/www/html/admin"
 
 - name: "Remove /var/www/html/admin directory"
-  when: file_check.stat.exists
+  when: file_check.stat.exists and (install_pihole_force_install | default(false))
   register: output
   changed_when: (output.changed | default(false)) == false 
   ansible.builtin.file:
@@ -55,7 +55,7 @@
 - name: "Install PiHole with bash"
   register: ouput
   changed_when: ouput.rc != 0
-  when: install_pihole_force_install | default(false)
+  when: (install_pihole_force_install | default(false)) or (not file_check.stat.exists)
   ansible.builtin.shell: >
     curl -L https://install.pi-hole.net | bash /dev/stdin --unattended
 

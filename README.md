@@ -106,34 +106,34 @@ Some vars a required to run this role:
 
 ```YAML
 ---
-install_pihole_webpassword: "admin"
-install_pihole_interface: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['interface'] }}"
-install_pihole_ipv4_address: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}/{{ (hostvars[ansible_hostname]['ansible_default_ipv4']['address'] + '/' + hostvars[ansible_hostname]['ansible_default_ipv4']['netmask']) | ipaddr('prefix') }}"
-install_pihole_query_logging: true
-install_pihole_install_web: true
-install_pihole_dnsmasq_listening: "single"
-install_pihole_dns_1: "1.1.1.1"
-install_pihole_dns_2: "1.0.0.1"
-install_pihole_dns_fqdn_required: true
-install_pihole_dns_bogus_priv: true
-install_pihole_dnssec: true
-install_pihole_temperatureunit: "C"
-install_pihole_webuiboxedlayout: "traditional"
-install_pihole_api_exclude_domains: ""
-install_pihole_api_exclude_clients: ""
-install_pihole_api_query_logs_show: "all"
-install_pihole_api_privacy_mode: false
-install_pihole_force_install: false
+install_pihole__webpassword: "admin"
+install_pihole__interface: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['interface'] }}"
+install_pihole__ipv4_address: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}/{{ (hostvars[ansible_hostname]['ansible_default_ipv4']['address'] + '/' + hostvars[ansible_hostname]['ansible_default_ipv4']['netmask']) | ipaddr('prefix') }}"
+install_pihole__query_logging: true
+install_pihole__install_web: true
+install_pihole__dnsmasq_listening: "single"
+install_pihole__dns_1: "1.1.1.1"
+install_pihole__dns_2: "1.0.0.1"
+install_pihole__dns_fqdn_required: true
+install_pihole__dns_bogus_priv: true
+install_pihole__dnssec: true
+install_pihole__temperatureunit: "C"
+install_pihole__webuiboxedlayout: "traditional"
+install_pihole__api_exclude_domains: ""
+install_pihole__api_exclude_clients: ""
+install_pihole__api_query_logs_show: "all"
+install_pihole__api_privacy_mode: false
+install_pihole__force_install: false
 
-install_pihole_aaaa_list:
+install_pihole__aaaa_list:
   - domain: "{{ ansible_hostname }}"
     ip: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}"
 
-install_pihole_cname_list:
+install_pihole__cname_list:
   - domain: "pihole.local"
     target: "{{ ansible_hostname }}"
 
-install_pihole_adlists:
+install_pihole__adlists:
   - "https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt"
   - "https://adaway.org/hosts.txt"
   - "https://v.firebog.net/hosts/AdguardDNS.txt"
@@ -177,34 +177,34 @@ In order to surchage vars, you have multiples possibilities but for mains cases 
 ```YAML
 # From inventory
 ---
-inv_install_pihole_webpassword: "admin"
-inv_install_pihole_interface: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['interface'] }}"
-inv_install_pihole_ipv4_address: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}/{{ hostvars[ansible_hostname]['ansible_default_ipv4']['netmask'] }}"
-inv_install_pihole_query_logging: true
-inv_install_pihole_install_web: true
-inv_install_pihole_dnsmasq_listening: "single"
-inv_install_pihole_dns_1: "1.1.1.1"
-inv_install_pihole_dns_2: "1.0.0.1"
-inv_install_pihole_dns_fqdn_required: true
-inv_install_pihole_dns_bogus_priv: true
-inv_install_pihole_dnssec: true
-inv_install_pihole_temperatureunit: "C"
-inv_install_pihole_webuiboxedlayout: "traditional"
-inv_install_pihole_api_exclude_domains: ""
-inv_install_pihole_api_exclude_clients: ""
-inv_install_pihole_api_query_logs_show: "all"
-inv_install_pihole_api_privacy_mode: false
-inv_install_pihole_force_install: false
+inv_install_pihole__webpassword: "admin"
+inv_install_pihole__interface: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['interface'] }}"
+inv_install_pihole__ipv4_address: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}/{{ hostvars[ansible_hostname]['ansible_default_ipv4']['netmask'] }}"
+inv_install_pihole__query_logging: true
+inv_install_pihole__install_web: true
+inv_install_pihole__dnsmasq_listening: "single"
+inv_install_pihole__dns_1: "1.1.1.1"
+inv_install_pihole__dns_2: "1.0.0.1"
+inv_install_pihole__dns_fqdn_required: true
+inv_install_pihole__dns_bogus_priv: true
+inv_install_pihole__dnssec: true
+inv_install_pihole__temperatureunit: "C"
+inv_install_pihole__webuiboxedlayout: "traditional"
+inv_install_pihole__api_exclude_domains: ""
+inv_install_pihole__api_exclude_clients: ""
+inv_install_pihole__api_query_logs_show: "all"
+inv_install_pihole__api_privacy_mode: false
+inv_install_pihole__force_install: false
 
-inv_install_pihole_aaaa_list:
+inv_install_pihole__aaaa_list:
   - domain: "{{ ansible_hostname }}"
     ip: "{{ hostvars[ansible_hostname]['ansible_default_ipv4']['address'] }}"
 
-inv_install_pihole_cname_list:
+inv_install_pihole__cname_list:
   - domain: "pihole.local"
     target: "{{ ansible_hostname }}"
 
-inv_install_pihole_adlists:
+inv_install_pihole__adlists:
   - "https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt"
   - "https://adaway.org/hosts.txt"
   - "https://v.firebog.net/hosts/AdguardDNS.txt"
@@ -254,27 +254,27 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
   tags:
     - "labocbz.install_pihole"
   vars:
-    install_pihole_webpassword: "{{ inv_install_pihole_webpassword }}"
-    install_pihole_interface: "{{ inv_install_pihole_interface }}"
-    install_pihole_ipv4_address: "{{ inv_install_pihole_ipv4_address }}"
-    install_pihole_query_logging: "{{ inv_install_pihole_query_logging }}"
-    install_pihole_install_web: "{{ inv_install_pihole_install_web }}"
-    install_pihole_dnsmasq_listening: "{{ inv_install_pihole_dnsmasq_listening }}"
-    install_pihole_dns_1: "{{ inv_install_pihole_dns_1 }}"
-    install_pihole_dns_2: "{{ inv_install_pihole_dns_2 }}"
-    install_pihole_dns_fqdn_required: "{{ inv_install_pihole_dns_fqdn_required }}"
-    install_pihole_dns_bogus_priv: "{{ inv_install_pihole_dns_bogus_priv }}"
-    install_pihole_dnssec: "{{ inv_install_pihole_dnssec }}"
-    install_pihole_temperatureunit: "{{ inv_install_pihole_temperatureunit }}"
-    install_pihole_webuiboxedlayout: "{{ inv_install_pihole_webuiboxedlayout }}"
-    install_pihole_api_exclude_domains: "{{ inv_install_pihole_api_exclude_domains }}"
-    install_pihole_api_exclude_clients: "{{ inv_install_pihole_api_exclude_clients }}"
-    install_pihole_api_query_logs_show: "{{ inv_install_pihole_api_query_logs_show }}"
-    install_pihole_api_privacy_mode: "{{ inv_install_pihole_api_privacy_mode }}"
-    install_pihole_aaaa_list: "{{ inv_install_pihole_aaaa_list }}"
-    install_pihole_cname_list: "{{ inv_install_pihole_cname_list }}"
-    install_pihole_adlists: "{{ inv_install_pihole_adlists }}"
-    install_pihole_force_install: "{{ inv_install_pihole_force_install }}"
+    install_pihole__webpassword: "{{ inv_install_pihole__webpassword }}"
+    install_pihole__interface: "{{ inv_install_pihole__interface }}"
+    install_pihole__ipv4_address: "{{ inv_install_pihole__ipv4_address }}"
+    install_pihole__query_logging: "{{ inv_install_pihole__query_logging }}"
+    install_pihole__install_web: "{{ inv_install_pihole__install_web }}"
+    install_pihole__dnsmasq_listening: "{{ inv_install_pihole__dnsmasq_listening }}"
+    install_pihole__dns_1: "{{ inv_install_pihole__dns_1 }}"
+    install_pihole__dns_2: "{{ inv_install_pihole__dns_2 }}"
+    install_pihole__dns_fqdn_required: "{{ inv_install_pihole__dns_fqdn_required }}"
+    install_pihole__dns_bogus_priv: "{{ inv_install_pihole__dns_bogus_priv }}"
+    install_pihole__dnssec: "{{ inv_install_pihole__dnssec }}"
+    install_pihole__temperatureunit: "{{ inv_install_pihole__temperatureunit }}"
+    install_pihole__webuiboxedlayout: "{{ inv_install_pihole__webuiboxedlayout }}"
+    install_pihole__api_exclude_domains: "{{ inv_install_pihole__api_exclude_domains }}"
+    install_pihole__api_exclude_clients: "{{ inv_install_pihole__api_exclude_clients }}"
+    install_pihole__api_query_logs_show: "{{ inv_install_pihole__api_query_logs_show }}"
+    install_pihole__api_privacy_mode: "{{ inv_install_pihole__api_privacy_mode }}"
+    install_pihole__aaaa_list: "{{ inv_install_pihole__aaaa_list }}"
+    install_pihole__cname_list: "{{ inv_install_pihole__cname_list }}"
+    install_pihole__adlists: "{{ inv_install_pihole__adlists }}"
+    install_pihole__force_install: "{{ inv_install_pihole__force_install }}"
   ansible.builtin.include_role:
     name: "labocbz.install_pihole"
 ```
@@ -312,6 +312,14 @@ Here you can put your change to keep a trace of your work and decisions.
 
 * You can now set a reinstall vars as force install with script
 * Pihole-FTL restart if any change on DNS (because reinstall script not executed)
+
+### 2024-02-22: New support
+
+* New CI
+* Added Sonarqube
+* Added support for Debian 12/11
+* Added support for Ubuntu 22
+* Added random for cluster services
 
 ## Authors
 

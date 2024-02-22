@@ -23,14 +23,15 @@
     mode: "0644"
 
 - name: "Create / Set the password hash"
-  register: install_pihole_webpassword_hashed
-  changed_when: install_pihole_webpassword_hashed.rc != 0
+  register: install_pihole__webpassword_hashed
+  changed_when: install_pihole__webpassword_hashed.rc != 0
   ansible.builtin.shell: >
-    echo -n {{ install_pihole_webpassword }} | sha256sum | awk '{printf "%s",$1 }' | sha256sum
+    set -o pipefail
+    echo -n {{ install_pihole__webpassword }} | sha256sum | awk '{printf "%s",$1 }' | sha256sum
 
 - name: "Import setupVars configuration file"
   register: output
-  changed_when: (output.changed | default(false)) == false 
+  changed_when: false 
   ansible.builtin.template:
     src: "templates/setupVars.conf.j2"
     dest: "/etc/pihole/setupVars.conf"
@@ -45,19 +46,28 @@
     path: "/var/www/html/admin"
 
 - name: "Remove /var/www/html/admin directory"
-  when: file_check.stat.exists and (install_pihole_force_install | default(false))
+  when: file_check.stat.exists and (install_pihole__force_install | default(false))
   register: output
   changed_when: (output.changed | default(false)) == false 
   ansible.builtin.file:
     path: "/var/www/html/admin"
     state: absent
 
-- name: "Install PiHole with bash"
-  register: ouput
-  changed_when: ouput.rc != 0
-  when: (install_pihole_force_install | default(false)) or (not file_check.stat.exists)
-  ansible.builtin.shell: >
-    curl -L https://install.pi-hole.net | bash /dev/stdin --unattended
+- name: "Install PiHole"
+  when: (install_pihole__force_install | default(false)) or (not (file_check.stat.exists))
+  block:
+    - name: "Install PiHole with bash"
+      ansible.builtin.get_url:
+        url: "https://install.pi-hole.net"
+        dest: "/root/pihole_install.sh"
+        owner: "root"
+        mode: "0700"
+
+    - name: "Run Pi-hole installer script"
+      register: output
+      changed_when: output.rc != 0
+      ansible.builtin.shell: >
+        bash /root/pihole_install.sh --unattended
 
 - name: "Update PiHole with bash"
   register: ouput
@@ -67,14 +77,14 @@
 - name: "Import adlists with bash"
   register: ouput
   changed_when: ouput.rc != 0
-  when: install_pihole_adlists | default(false)
-  loop: "{{ install_pihole_adlists }}"
+  when: install_pihole__adlists | default(false)
+  loop: "{{ install_pihole__adlists }}"
   loop_control:
     loop_var: adlist
   ansible.builtin.command: "/usr/local/bin/pihole -a adlist add {{ adlist }}"
 
 - name: "Import CNAME records"
-  when: install_pihole_cname_list | default(false)
+  when: install_pihole__cname_list | default(false)
   register: cname_state
   notify: "Restart Pihole-FTL"
   ansible.builtin.template:
@@ -86,7 +96,7 @@
     mode: "0644"
 
 - name: "Import AAAA records"
-  when: install_pihole_aaaa_list | default(false)
+  when: install_pihole__aaaa_list | default(false)
   register: aaaa_state
   notify: "Restart Pihole-FTL"
   ansible.builtin.template:
@@ -102,6 +112,11 @@
   changed_when: ouput.rc != 0
   when: (cname_state.changed | default(false)) or (aaaa_state.changed | default(false))
   ansible.builtin.command: "/usr/local/bin/pihole -g"
+
+- name: "Check /var/www/html/index.lighttpd.html directory"
+  register: file_check
+  ansible.builtin.stat:
+    path: "/var/www/html/index.lighttpd.html"
 
 - name: "Remove /var/www/html/index.lighttpd.html"
   when: file_check.stat.exists

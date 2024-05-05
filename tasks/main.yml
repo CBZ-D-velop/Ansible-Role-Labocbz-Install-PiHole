@@ -132,3 +132,9 @@
     path: /etc/dnsmasq.d/01-pihole.conf
     regexp: '^local-ttl='
     line: "local-ttl={{ install_pihole__ttl }}"
+
+- name: "Set the password, as hard definition"
+  register: output
+  changed_when: output.rc != 0
+  ansible.builtin.shell:
+    pihole -a -p {{ install_pihole__webpassword }}

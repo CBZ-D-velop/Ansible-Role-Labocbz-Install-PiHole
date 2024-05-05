@@ -326,7 +326,7 @@ Here you can put your change to keep a trace of your work and decisions.
 
 ### 2024-05-05: TTL DNS
 
-* You can now set the TTLS of each DNS queries
+* You can now set the TTLS of each DNS queries of clients
 
 ## Authors
 

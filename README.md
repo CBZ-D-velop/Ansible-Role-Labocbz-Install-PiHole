@@ -124,6 +124,7 @@ install_pihole__api_exclude_clients: ""
 install_pihole__api_query_logs_show: "all"
 install_pihole__api_privacy_mode: false
 install_pihole__force_install: false
+install_pihole__ttl: 60
 
 install_pihole__aaaa_list:
   - domain: "{{ ansible_hostname }}"
@@ -195,6 +196,7 @@ inv_install_pihole__api_exclude_clients: ""
 inv_install_pihole__api_query_logs_show: "all"
 inv_install_pihole__api_privacy_mode: false
 inv_install_pihole__force_install: false
+inv_install_pihole__ttl: 60
 
 inv_install_pihole__aaaa_list:
   - domain: "{{ ansible_hostname }}"
@@ -275,6 +277,7 @@ To run this role, you can copy the molecule/default/converge.yml playbook and ad
     install_pihole__cname_list: "{{ inv_install_pihole__cname_list }}"
     install_pihole__adlists: "{{ inv_install_pihole__adlists }}"
     install_pihole__force_install: "{{ inv_install_pihole__force_install }}"
+    install_pihole__ttl: "{{ inv_install_pihole__ttl }}"
   ansible.builtin.include_role:
     name: "labocbz.install_pihole"
 ```
@@ -320,6 +323,10 @@ Here you can put your change to keep a trace of your work and decisions.
 * Added support for Debian 12/11
 * Added support for Ubuntu 22
 * Added random for cluster services
+
+### 2024-05-05: TTL DNS
+
+* You can now set the TTLS of each DNS queries of clients
 
 ## Authors
 
